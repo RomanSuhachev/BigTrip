@@ -1,41 +1,47 @@
-import createMainMenuTemplate from "./view/main-menu";
-import createTripInfoTemplate from "./view/trip-info";
-import createTripFiltersTemplate from "./view/trip-filters";
-import createEmptyList from "./view/empty-list";
-import tripSortTemplate from "./view/trip-sort";
-import editPointTemplate from "./view/edit-point";
-import addPointtempalte from "./view/add-point";
-import tripCostTemplate from "./view/trip-cost";
-import {pointTemplate} from "./view/point";
+import {createMainMenuTemplate} from './view/main-menu.js';
+import {createTripInfoTemplate} from './view/trip-info.js';
+import {CreateTripCostTemplate} from './view/trip-cost.js';
+import {createFilterTemplate} from './view/filter.js';
+import {createTripBordTemplate} from './view/trip-bord.js';
+import {createEditPointTemplate} from './view/edit-point.js';
+import {createPointTemplate} from './view/point.js';
+import {generatePointData} from './mock/point-data-generator.js';
+import {generateFilterData} from './mock/filter-data-generator.js';
 
-const POINTS_COUNT = 3;
 
-const INSERT_POSITION = "beforeEnd";
-const render = (template, container, insertPosition = INSERT_POSITION) => {
-    container.insertAdjacentHTML(insertPosition, template);
-}
+const POINT_COUNT = 20;
+const FIRST_POINT_NUMBER = 1;
 
-const pageBody = document.querySelector(".page-body");
+const randomPointsData = new Array(POINT_COUNT).fill(null).map(generatePointData);
+const filterData = generateFilterData(randomPointsData);
 
-const menuContainer = pageBody.querySelector(".trip-controls__navigation");
-render(createMainMenuTemplate(), menuContainer);
 
-const tripInfoContainer = pageBody.querySelector(".trip-main");
-render(createTripInfoTemplate(), tripInfoContainer, "afterBegin");
+const siteBodyElement = document.querySelector('.page-body');
 
-const tripCostContainer = tripInfoContainer.querySelector('.trip-info');
-render(tripCostTemplate(), tripCostContainer);
+const render = (container, template, position = 'beforeend') => {
+  container.insertAdjacentHTML(position, template);
+};
 
-const tripFiltersContainer = document.querySelector('.trip-controls__filters');
-render(createTripFiltersTemplate(), tripFiltersContainer);
 
-const tripEventsContainer = document.querySelector(".trip-events");
-render(tripSortTemplate(), tripEventsContainer);
+const menuElement = siteBodyElement.querySelector('.trip-controls__navigation');
+render (menuElement, createMainMenuTemplate());
 
-const eventListItem = tripEventsContainer.querySelector(".trip-events__list");
-render(editPointTemplate(), eventListItem);
-render(addPointtempalte(), eventListItem)
+const tripDetailsElement = siteBodyElement.querySelector('.trip-main');
+render(tripDetailsElement, createTripInfoTemplate(randomPointsData), 'afterbegin');
 
-for(let i = 0; i < POINTS_COUNT; i++) {
-    render(pointTemplate(), eventListItem);
+const tripInfoElement = tripDetailsElement.querySelector('.trip-info');
+render(tripInfoElement, CreateTripCostTemplate(randomPointsData));
+
+const filterElement = siteBodyElement.querySelector('.trip-controls__filters');
+render(filterElement, createFilterTemplate(filterData));
+
+const tripBordElement = siteBodyElement.querySelector('.trip-events');
+render(tripBordElement, createTripBordTemplate());
+
+const eventListElement = tripBordElement.querySelector('.trip-events__list');
+render(eventListElement, createEditPointTemplate(randomPointsData[0]));
+
+
+for (let i = FIRST_POINT_NUMBER; i < POINT_COUNT; i++) {
+  render(eventListElement, createPointTemplate(randomPointsData[i]));
 }
