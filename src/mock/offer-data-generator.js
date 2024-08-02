@@ -1,4 +1,4 @@
-import {generateRandomArray} from '../utils.js';
+import { generateRandomArray } from '../utils.js';
 
 const MAX_OFFERS_NUMBER = 5;
 
@@ -49,4 +49,4 @@ const generateRandomOffers = (types) => {
 };
 
 
-export {generateRandomOffers};
+export { generateRandomOffers };

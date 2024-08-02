@@ -1,9 +1,9 @@
-import {DateFormat} from './../const.js';
-import {humanizeDate, getTimeDuration} from './../utils.js';
+import { DateFormat } from './../const.js';
+import { createElement, getTimeDuration, humanizeDate } from './../utils.js';
 
 
 const createPointOfferTemplate = (offers) => {
-  return offers.length > 0 ? `${offers.map(({title, price}) => `<li
+  return offers.length > 0 ? `${offers.map(({ title, price }) => `<li
     class="event__offer">
     <span class="event__offer-title">${title}</span>
     &plus;&euro;&nbsp;
@@ -13,9 +13,9 @@ const createPointOfferTemplate = (offers) => {
 };
 
 
-export const createPointTemplate = (pointData) => {
+const createPointTemplate = (pointData) => {
 
-  const {type, destination, dateFrom, dateTo, basePrice, isFavorite, offers} = pointData;
+  const { type, destination, dateFrom, dateTo, basePrice, isFavorite, offers } = pointData;
 
   const favoriteClassName = isFavorite
     ? 'event__favorite-btn--active'
@@ -55,3 +55,25 @@ export const createPointTemplate = (pointData) => {
     </div>
   </li>`;
 };
+
+export default class Point {
+  constructor(pointData) {
+    this._pointData = pointData;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createPointTemplate(this._pointData);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

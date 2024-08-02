@@ -1,4 +1,5 @@
-const addPointtempalte = () => {
+class AddPoint {
+  getTemplate() {
     return `
     <li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
@@ -168,6 +169,7 @@ const addPointtempalte = () => {
     </form>
   </li>
     `
+  }
 }
 
-export default addPointtempalte;
+export default AddPoint;

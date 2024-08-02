@@ -8,4 +8,4 @@ const DateFormat = {
   DATE_HOUR: 'DD/MM/YY HH:mm',
 };
 
-export {types, cites, DateFormat};
+export { types, cites, DateFormat };

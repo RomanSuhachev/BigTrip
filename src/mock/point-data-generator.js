@@ -1,6 +1,6 @@
-import {types, cites} from './../const.js';
-import {getRandomInteger, getRandomArrayElement, generateRandomArray, pickOffersDependOnType} from '../utils.js';
-import {generateRandomOffers} from './offer-data-generator.js';
+import { cites, types } from './../const.js';
+import { generateRandomArray, getRandomArrayElement, getRandomInteger, pickOffersDependOnType } from '../utils.js';
+import { generateRandomOffers } from './offer-data-generator.js';
 import dayjs from 'dayjs';
 
 const Gap = {
@@ -80,4 +80,4 @@ const generatePointData = () => {
 };
 
 
-export {generatePointData};
+export { generatePointData };
