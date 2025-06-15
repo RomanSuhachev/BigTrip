@@ -1,14 +1,26 @@
 const path = require('path');
 
 module.exports = {
+  devtool: 'source-map',
+  mode: 'development',
   entry: './src/main.js',
   output: {
-    filename: 'bundle.js',
     path: path.resolve(__dirname, 'public'),
+    filename: 'bundle.js',
+    publicPath: '/'
   },
-  devtool: 'source-map',
   devServer: {
-    contentBase: path.resolve(__dirname, 'public'),
-    watchContentBase: true,
-  }
-};
+    static: {
+      directory: path.resolve(__dirname, 'public')
+    },
+    watchFiles:{
+      paths: ['./src/**/*.js', './src/**/*.html', './src/**/*.css', './src/**/*.scss'],
+      options: {
+        usePolling: false,
+      },
+    },
+    hot: true,
+    compress: true,
+    port: 9000,
+  },
+}

@@ -1,5 +1,6 @@
 import { DateFormat } from './../const.js';
-import { createElement, getTimeDuration, humanizeDate } from './../utils.js';
+import { getTimeDuration, humanizeDate } from './../utils/date.js';
+import AbstractView from './abstract-view.js';
 
 
 const createPointOfferTemplate = (offers) => {
@@ -56,24 +57,24 @@ const createPointTemplate = (pointData) => {
   </li>`;
 };
 
-export default class Point {
-  constructor(pointData) {
+export default class Point extends AbstractView {
+  constructor(pointData,onClickHandler ) {
+    super();
     this._pointData = pointData;
     this._element = null;
+
+    this._onClickHandler = onClickHandler.bind(this);
   }
 
   getTemplate() {
     return createPointTemplate(this._pointData);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
+  bindEventListeners(el) {
+    el.addEventListener('click', this._onClickHandler);
   }
 
-  removeElement() {
-    this._element = null;
+  removeHandler() {
+    this.getElement().removeEventListener('click', this._onClickHandler);
   }
 }

@@ -1,6 +1,8 @@
 import dayjs from 'dayjs';
 import { cites, DateFormat, types } from '../const.js';
-import { createElement, getRandomArrayElement, getRandomInteger, humanizeDate } from '../utils.js';
+import { humanizeDate } from '../utils/date.js';
+import {getRandomArrayElement, getRandomInteger} from "../utils";
+import AbstractView from './abstract-view.js';
 
 
 const EMPTY_POINT = {
@@ -127,24 +129,21 @@ const createPointEditorTemplate = (pointData) => {
   </li>`;
 };
 
-export default class PointEditor {
-  constructor(pointData = EMPTY_POINT) {
+export default class PointEditor extends AbstractView {
+  constructor(pointData = EMPTY_POINT, handlers) {
+    super();
     this._pointData = pointData;
     this._element = null;
+    this._handlers = handlers;
   }
 
   getTemplate() {
     return createPointEditorTemplate(this._pointData);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  bindEventListeners() {
+    this._handlers.forEach(el => {
+      this.getElement().querySelector(el.el).addEventListener(el.event, el.fn);
+    })
   }
 }

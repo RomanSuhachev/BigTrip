@@ -1,4 +1,6 @@
-class AddPoint {
+import AbstractView from "./abstract-view";
+
+class AddPoint extends AbstractView {
   getTemplate() {
     return `
     <li class="trip-events__item">
