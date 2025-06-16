@@ -7,8 +7,13 @@ const RenderPosition = {
 
 const render = (container, element, position = RenderPosition.BEFOREEND) => {
 
+  if(container instanceof AbstractView) {
+    container = container.getElement();
+  }
+
   if(element instanceof AbstractView) {
     element = element.getElement();
+    console.log(`container ${container} - el ${element}`);
   }
 
   switch (position) {
