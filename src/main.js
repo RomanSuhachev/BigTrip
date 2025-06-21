@@ -7,6 +7,7 @@ import PointListView from './view/point-list.js';
 import PointEditorView from './view/point-editor.js';
 import PointView from './view/point.js';
 import PointPresenter from "./presenter/point-presenter";
+import PointListPresenter from "./presenter/point-list";
 
 import {generatePointData} from './mock/point-data-generator.js';
 import {generateFilterData} from './mock/filter-data-generator.js';
@@ -40,9 +41,9 @@ render(tripBoardElement, new TripSortView());
 const pointListComponent = new PointListView();
 render(tripBoardElement, pointListComponent);
 
-const presenter = new PointPresenter(pointListComponent);
+const presenter = new PointListPresenter();
 
-presenter.init(randomPointsData[2]);
+presenter.init(pointListComponent, randomPointsData);
 
 
 // const renderPoint = (pointListElement, pointData) => {

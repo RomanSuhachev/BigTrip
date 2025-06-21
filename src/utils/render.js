@@ -13,7 +13,6 @@ const render = (container, element, position = RenderPosition.BEFOREEND) => {
 
   if(element instanceof AbstractView) {
     element = element.getElement();
-    console.log(`container ${container} - el ${element}`);
   }
 
   switch (position) {
@@ -22,6 +21,9 @@ const render = (container, element, position = RenderPosition.BEFOREEND) => {
       break;
     case RenderPosition.BEFOREEND:
       container.append(element);
+      break;
+    default:
+      container.replaceChild(element, element);
       break;
   }
 };

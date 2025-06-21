@@ -63,6 +63,7 @@ export default class Point extends AbstractView {
   #element = null;
   #onClickHandler;
   #rollupBtn = null;
+  #favoriteBtn = null;
   constructor(pointData) {
     super();
     this.#pointData = pointData;
@@ -77,6 +78,11 @@ export default class Point extends AbstractView {
     this.#onClickHandler = callback.bind(this);
     this.#rollupBtn = this.getElement().querySelector('.event__rollup-btn');
     this.#rollupBtn.addEventListener('click', this.#onClickHandler);
+  }
+
+  setFavoriteClickHandler(callback) {
+    this.#favoriteBtn = this.getElement().querySelector('.event__favorite-btn');
+    this.#favoriteBtn.addEventListener('click', callback);
   }
 
   removeHandler() {

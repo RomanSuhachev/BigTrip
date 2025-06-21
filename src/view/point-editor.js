@@ -130,20 +130,29 @@ const createPointEditorTemplate = (pointData) => {
 };
 
 export default class PointEditor extends AbstractView {
-  constructor(pointData = EMPTY_POINT, handlers) {
+
+  #clickHandler;
+  #rollupBtn;
+  #form;
+
+  constructor(pointData = EMPTY_POINT) {
     super();
     this._pointData = pointData;
     this._element = null;
-    this._handlers = handlers;
   }
 
   getTemplate() {
     return createPointEditorTemplate(this._pointData);
   }
 
-  bindEventListeners() {
-    this._handlers.forEach(el => {
-      this.getElement().querySelector(el.el).addEventListener(el.event, el.fn);
-    })
+  setClickHandler(callback) {
+    this.#rollupBtn = this.getElement().querySelector('.event__rollup-btn');
+    this.#rollupBtn.addEventListener('click', callback);
   }
+
+  setSubmitHandler(callback) {
+    this.#form = this.getElement().querySelector('.event--edit');
+    this.#form.addEventListener('submit', callback);
+  }
+
 }
