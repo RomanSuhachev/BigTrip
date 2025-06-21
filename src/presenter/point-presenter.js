@@ -2,6 +2,11 @@ import Point from "../view/point";
 import PointEditor from "../view/point-editor";
 import {render} from "../utils/render";
 
+const VIEW_MODES = {
+  DEFAULT:'DEFAULT',
+  EDITOR:'EDITOR'
+}
+
 export default class PointPresenter {
 
   #pointComponent = null;
@@ -11,10 +16,13 @@ export default class PointPresenter {
   #prevPointEditorComponent = null;
   #data = null;
   #id = null;
+  #notifyHandler = null;
+  #mode;
 
-  constructor(listContainer, changeData) {
+  constructor(listContainer, changeData, changeMode) {
     this.#pointListContainer = listContainer;
     this.changeData = changeData;
+    this.changeMode = changeMode;
     this._changeViewToPoint = this._changeViewToPoint.bind(this);
   }
 
@@ -26,6 +34,7 @@ export default class PointPresenter {
     this.#pointComponent = new Point(pointData);
     this.#pointEditorComponent = new PointEditor(pointData);
     this.#id = this.#data.id;
+    this.#mode = VIEW_MODES.DEFAULT;
     this.#addListeners();
 
     if (this.#prevPointComponent === null || this.#prevPointEditorComponent === null) {
@@ -50,12 +59,25 @@ export default class PointPresenter {
     this.#pointEditorComponent = null;
   }
 
+  _changeView = () => {
+    this.#mode === VIEW_MODES.DEFAULT ? this._changeViewToEdit() : this._changeViewToPoint();
+  }
+
+  _resetView = () => {
+    if(this.#mode !== VIEW_MODES.DEFAULT) {
+      this._changeView();
+    }
+  }
+
   _changeViewToPoint = () => {
+    this.#mode = VIEW_MODES.DEFAULT;
     this.#pointListContainer.getElement().replaceChild(this.#pointComponent.getElement(), this.#pointEditorComponent.getElement());
     document.removeEventListener('keydown', this._onEscKeyDownHandler);
   };
 
   _changeViewToEdit = () => {
+    this.changeMode();
+    this.#mode = VIEW_MODES.EDITOR;
     this.#pointListContainer.getElement().replaceChild(this.#pointEditorComponent.getElement(), this.#pointComponent.getElement());
     document.addEventListener('keydown', this._onEscKeyDownHandler);
   };
@@ -77,8 +99,8 @@ export default class PointPresenter {
 
 
   #addListeners() {
-    this.#pointComponent.bindClickHandler(this._changeViewToEdit);
-    this.#pointComponent.setFavoriteClickHandler(this._onFavoriteClickHandler);
+    this.#pointComponent.bindClickHandler(this._changeView);
+    this.#pointComponent.setFavoriteClickHandler(this._changeView);
     this.#pointEditorComponent.setClickHandler(this._changeViewToPoint);
     this.#pointEditorComponent.setSubmitHandler((e) => {e.preventDefault(); this._changeViewToPoint()});
   }
