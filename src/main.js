@@ -2,16 +2,10 @@ import MainMenuView from './view/main-menu.js';
 import FilterView from './view/filter.js';
 import TripInfoView from './view/trip-info.js';
 import TripCostView from './view/trip-cost.js';
-import TripSortView from './view/trip-sort.js';
 import PointListView from './view/point-list.js';
-import PointEditorView from './view/point-editor.js';
-import PointView from './view/point.js';
-import PointPresenter from "./presenter/point-presenter";
 import PointListPresenter from "./presenter/point-list";
-
 import {generatePointData} from './mock/point-data-generator.js';
 import {generateFilterData} from './mock/filter-data-generator.js';
-import {isEscKeyDown} from './utils.js';
 import {RenderPosition} from "./utils/render";
 import {render} from "./utils/render";
 
@@ -36,60 +30,7 @@ render(tripDetailsElement, new TripInfoView(randomPointsData), RenderPosition.AF
 const tripInfoElement = tripDetailsElement.querySelector('.trip-info');
 render(tripInfoElement, new TripCostView(randomPointsData));
 
-const tripBoardElement = siteBodyElement.querySelector('.trip-events');
-render(tripBoardElement, new TripSortView());
-const pointListComponent = new PointListView();
-render(tripBoardElement, pointListComponent);
 
 const presenter = new PointListPresenter();
+presenter.init(new PointListView(), randomPointsData);
 
-presenter.init(pointListComponent, randomPointsData);
-
-
-// const renderPoint = (pointListElement, pointData) => {
-//   const changeViewToPoint = () => {
-//     pointListElement.replaceChild(pointComponent.getElement(), pointEditorComponent.getElement());
-//     document.removeEventListener('keydown', changeViewOnEscKeyPress);
-//   };
-//
-//   const changeViewToEdit = () => {
-//     pointListElement.replaceChild(pointEditorComponent.getElement(), pointComponent.getElement());
-//     document.addEventListener('keydown', changeViewOnEscKeyPress);
-//   };
-//
-//   const changeViewOnEscKeyPress = (e) => {
-//     if (isEscKeyDown(e)) {
-//       e.preventDefault();
-//       changeViewToPoint();
-//     }
-//   };
-//
-//   const pointComponent = new PointView(pointData);
-//   const pointEditorComponent = new PointEditorView(pointData,
-//     [
-//       {
-//         el: '.event__rollup-btn',
-//         event: 'click',
-//         fn: changeViewToPoint,
-//       },
-//       {
-//         el: '.event--edit',
-//         event: 'submit',
-//         fn: (e) => {
-//           e.preventDefault();
-//           changeViewToPoint();
-//         }
-//       },
-//     ]
-//   );
-//
-//   pointComponent.bindClickHandler(changeViewToEdit);
-//   pointEditorComponent.bindEventListeners();
-//
-//   render(pointListElement, pointComponent);
-// };
-//
-//
-// for (let i = 0; i < POINT_COUNT; i++) {
-//   renderPoint(pointListComponent.getElement(), randomPointsData[i]);
-// }

@@ -3,6 +3,7 @@ import { generateRandomArray, getRandomArrayElement, getRandomInteger, pickOffer
 import { generateRandomOffers } from './offer-data-generator.js';
 import dayjs from 'dayjs';
 import {nanoid} from 'nanoid/non-secure';
+import {getTimeDuration, humanizeDate} from "../utils/date";
 
 const Gap = {
   MIN: 1,
@@ -69,6 +70,7 @@ const generatePointData = () => {
   const type = getRandomArrayElement(types);
   const offers = generateRandomOffers(types);
   const dateInterval = generateDate();
+  const duration = dateInterval.dateFrom - dateInterval.dateTo;
   let id = nanoid(2);
   return {
     id,
@@ -78,6 +80,7 @@ const generatePointData = () => {
     basePrice: getRandomInteger(Period.BASE_PRICE_MIN, Period.BASE_PRICE_MAX),
     dateFrom: dateInterval.dateFrom,
     dateTo: dateInterval.dateTo,
+    duration: duration,
     isFavorite: Boolean(getRandomInteger()),
   };
 };
