@@ -50,6 +50,7 @@ export default class PointListPresenter {
     for (let i = 0; i < this.#POINT_COUNT; i++) {
       let presenter = new PointPresenter(listContainer, this.changeData, this.#formObserver.notify).init(pointData[i]);
       this.#pointPresenters.set(pointData[i].id, presenter);
+      this.#formObserver.subscribe(presenter);
     }
     render(this.#sortComponent, this.#listComponent);
   }
